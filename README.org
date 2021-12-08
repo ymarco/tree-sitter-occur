@@ -1,0 +1,7 @@
+#+title: tree-sitter-occur
+#+DATE:    December 8, 2021
+
+Grep with [[https://tree-sitter.github.io/tree-sitter/using-parsers#pattern-matching-with-queries][syntax tree queries]] accross your project.
+
+#+caption: grepping for *ctx in function declarations
+[[file:screenshot.png]]
