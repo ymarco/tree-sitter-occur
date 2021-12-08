@@ -68,9 +68,10 @@ Skip a buffer if it doesn't have a `tree-sitter-language'."
     (nreverse results)))
 
 (defun tree-sitter-occur (patterns buffers)
-  (interactive (list (if (region-active-p)
-                         (buffer-substring (region-beginning) (region-end))
-                       (read-string "Query: "))
+  (interactive (list (read-string
+                      "Query: "
+                      (when (region-active-p)
+                        (buffer-substring (region-beginning) (region-end))))
                      (cdr (consult--buffer-query-prompt
                            "Go to line"
                            '(:sort alpha :directory project)))))
