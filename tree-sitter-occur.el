@@ -112,7 +112,9 @@ Skip a buffer if it doesn't have a `tree-sitter-language'."
                        'follow-link t
                        'help-echo "mouse-2: go to this occurrence")
            line
-           "\n"))
+           "\n")
+          (put-text-property (- (point) (length line) 9)
+                             (point) 'occur-target beg-marker))
          (setq prev-buffer buffer)))
       (goto-char (point-min))
       (occur-mode)
