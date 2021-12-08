@@ -21,6 +21,7 @@
 (require 'replace)
 (require 'tree-sitter)
 (require 'consult)
+(require 'subr-x)
 
 (defun tree-sitter-occur--find-patterns (patterns)
   "Return a list of ranges matching PATTERNS in the current buffer.
@@ -118,7 +119,12 @@ Skip a buffer if it doesn't have a `tree-sitter-language'."
          (setq prev-buffer buffer)))
       (goto-char (point-min))
       (occur-mode)
-      (setq-local occur-highlight-regexp "^.*$")
+      (setq-local occur-highlight-regexp "^.*$"
+                  header-line-format (thread-last
+                                       patterns
+                                       (string-trim)
+                                       (concat " ")
+                                       (replace-regexp-in-string "\n *" "  " )))
       (pop-to-buffer (current-buffer)))))
 
 
