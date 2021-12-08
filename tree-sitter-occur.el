@@ -20,14 +20,21 @@
 ;;; Code:
 (require 'replace)
 (require 'tree-sitter)
+(require 'consult)
 
-(defun tree-sitter-occur (patterns)
-  (interactive "sQuery: ")
-  (let ((buffers (list (current-buffer)))
-        (output-buffer (generate-new-buffer "*TS Query Occur*")))
+(defun tree-sitter-occur (patterns buffers)
+  (interactive (list (if (region-active-p)
+                         (buffer-substring (region-beginning) (region-end))
+                       (read-string "Query: "))
+                     (cdr
+                      (consult--buffer-query-prompt
+                       "Go to line"
+                       '(:sort alpha :directory project)))))
+  (let ((output-buffer (generate-new-buffer "*TS Query Occur*"))
     (with-current-buffer output-buffer
       (dolist (buffer buffers)
         ;; aiming for the same text properties used by the real occur
+        (message "buffer: %s" buffer)
         (insert (propertize
                  (format "lines from buffer: %s\n" buffer)
                  'face list-matching-lines-buffer-name-face))
@@ -67,7 +74,8 @@
             ;; this is pretty much the expansion of (tree-sitter-query--eval-query patterns)
             (tsc--without-restriction
               (when-let*
-                  ((query
+                  ((_ tree-sitter-language) ; if there's an active lang
+                   (query
                     (condition-case err
                         (tsc-make-query tree-sitter-language patterns)
                       ((tsc-query-invalid-node-type
