@@ -1,4 +1,4 @@
-;;; tree-sitter-occur.el --- TODO description -*- lexical-binding: t; -*-
+;;; tree-sitter-occur.el --- Find tree query matches in project -*- lexical-binding: t; -*-
 ;;
 ;; Copyright (C) 2021 Yoav Marco
 ;;
@@ -15,7 +15,7 @@
 ;;
 ;;; Commentary:
 ;;
-;;  TODO description
+;; Find tree query matches in project with the same interface as `occur'.
 ;;
 ;;; Code:
 (require 'replace)
